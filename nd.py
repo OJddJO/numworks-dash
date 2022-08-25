@@ -124,6 +124,8 @@ class Structure:
         elif y < self.interval[0]:
             y = self.interval[0]
         self.structureElement = []
+        self.structureElement.append(Ground(320, 110, y+10, 190-y)
+        )
         return y
 
     def draw(self):
@@ -145,6 +147,47 @@ class TriSpike(Structure):
         self.pos = [320, super().__init__(y)]
         for i in range(3):
             self.structureElement.append(Spike(self.pos[0]+40+10*i, self.pos[1]))
-        self.structureElement.append(Ground(self.pos[0], 110, self.pos[1]+10, 190-self.pos[1]))
 
 
+class Game:
+    def __init__(self):
+        self.player = Cube()
+        self.obsList = []
+        self.score = 0
+        self.lastY = 200
+        self.tick = 60
+        fRect(0, 200, 320, 222, (0, 0, 0))
+
+    def addObs(self):
+        if self.tick == 0:
+            if randint(0, 1) == 0:
+                self.lastY += 10
+            else:
+                self.lastY -= 10
+            if self.lastY > 190:
+                self.lastY = 190
+            elif self.lastY < 40:
+                self.lastY = 190
+            self.obsList.append(TriSpike(self.lastY))
+            self.tick = 120
+        else:
+            self.tick -= 1
+
+    def run(self):
+        self.player.update()
+        for element in self.obsList:
+            element.update()
+            if element.structureElement == []:
+                self.obsList.remove(element)
+                self.score += 1
+        self.addObs()
+        dStr("Score: "+str(self.score), 200, 10)
+        if self.player.collider(): return False
+        else: return True
+
+game = Game()
+run = True
+fRect(0, 200, 320, 222, (0, 0, 0))
+while run:
+    run = game.run()
+    sleep(1/120)
