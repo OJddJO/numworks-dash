@@ -124,7 +124,8 @@ class Structure:
         elif y < self.interval[0]:
             y = self.interval[0]
         self.structureElement = []
-        return y
+        self.pos = [320, y]
+        self.structureElement.append(Ground(self.pos[0], 110, self.pos[1]+10, 190-self.pos[1]))
 
     def draw(self):
         for element in self.structureElement:
@@ -140,12 +141,25 @@ class Structure:
         self.destroy()
 
 
+class BruhSpike(Structure):
+    def __init__(self, y):
+        super().__init__(y)
+        self.structureElement.append(Spike(self.pos[0]+40, self.pos[1]))
+        self.structureElement.append(Ground(self.pos[0]+60, 10, self.pos[1]-40, 10))
+
+
+class SpikeRoof(Structure):
+    def __init__(self, y):
+        super().__init__(y)
+        self.structureElement.append(Spike(self.pos[0]+50, self.pos[1]))
+        self.structureElement.append(Ground(self.pos[0]+35, 10, self.pos[1]-40, 10))
+
+
 class TriSpike(Structure):
     def __init__(self, y):
-        self.pos = [320, super().__init__(y)]
+        super().__init__(y)
         for i in range(3):
             self.structureElement.append(Spike(self.pos[0]+40+10*i, self.pos[1]))
-        self.structureElement.append(Ground(320, 110, y+10, 190-y))
 
 
 class Game:
@@ -159,18 +173,18 @@ class Game:
 
     def addObs(self):
         if self.tick == 0:
-            if randint(0, 1) == 0:
-                self.lastY += 10
-            else:
-                self.lastY -= 10
+            if randint(0, 1) == 0: self.lastY += 10
+            else: self.lastY -= 10
             if self.lastY > 190:
                 self.lastY = 190
             elif self.lastY < 40:
                 self.lastY = 190
-            self.obsList.append(TriSpike(self.lastY))
-            self.tick = 100
-        else:
-            self.tick -= 1
+            t = randint(0, 2)
+            if t == 0: self.obsList.append(TriSpike(self.lastY))
+            elif t == 1: self.obsList.append(SpikeRoof(self.lastY))
+            elif t == 2: self.obsList.append(BruhSpike(self.lastY))
+            self.tick = 120
+        else: self.tick -= 1
 
     def run(self):
         self.player.update()
