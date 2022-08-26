@@ -124,8 +124,6 @@ class Structure:
         elif y < self.interval[0]:
             y = self.interval[0]
         self.structureElement = []
-        self.structureElement.append(Ground(320, 110, y+10, 190-y)
-        )
         return y
 
     def draw(self):
@@ -147,6 +145,7 @@ class TriSpike(Structure):
         self.pos = [320, super().__init__(y)]
         for i in range(3):
             self.structureElement.append(Spike(self.pos[0]+40+10*i, self.pos[1]))
+        self.structureElement.append(Ground(320, 110, y+10, 190-y))
 
 
 class Game:
