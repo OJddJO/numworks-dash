@@ -25,7 +25,7 @@ class Cube:
         if self.grounded() and not self.jumped:
             self.yVel = 0
         elif not self.jumped and self.yVel < self.yMaxVel and not self.grounded():
-            self.yVel += 0.1 + ((self.yVel**2)/20)
+            self.yVel += 0.1 + ((self.yVel**2)/25)
         elif self.jumped:
             if self.yVel < 0:
                 self.yVel += 0.1 + (1/abs(self.yVel))/10
@@ -169,7 +169,7 @@ class Game:
             elif self.lastY < 40:
                 self.lastY = 190
             self.obsList.append(TriSpike(self.lastY))
-            self.tick = 120
+            self.tick = 100
         else:
             self.tick -= 1
 
