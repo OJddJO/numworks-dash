@@ -3,6 +3,71 @@ from ion import *
 from time import sleep
 from random import randint
 
+class UI:
+
+    def __init__(self):
+        self.optionList = ["     Play     ", "     Exit     ", " [OK] to jump "]
+        self.modifiedList = []
+        self.select = 0
+        self.draw()
+
+
+    def draw(self):
+        fRect(0, 0, 320, 222, (255, 255, 255))
+        txt = ["Numworks Dash", "by OJd_dJO"]
+        dStr(txt[0], int(160-(len(txt[0])*10/2)), 80, (50, 50, 200))
+        dStr(txt[1], int(160-(len(txt[1])*10/2)), 98, (50, 50, 200))
+
+
+    def update(self):
+        self.modifiedList = []
+        for element in self.optionList:
+            if element == self.optionList[self.select]:
+                self.modifiedList.append("> "+element+" <")
+            else:
+                self.modifiedList.append("  "+element+"  ")
+        i = 0
+        for element in self.modifiedList:
+            yMod = 18*i
+            length = len(element)*10
+            if element == self.modifiedList[self.select]:
+              dStr(element, 160-int(length/2), 140+yMod, (0, 0, 0), (200, 200, 200))
+            else:
+              dStr(element, 160-int(length/2), 140+yMod)
+            i += 1
+        if keydown(KEY_DOWN):
+            self.select += 1
+            if self.select == 3:
+                self.select = 0
+            while keydown(KEY_DOWN):
+                pass
+        elif keydown(KEY_UP):
+            self.select -= 1
+            if self.select == -1:
+                self.select = 2
+            while keydown(KEY_UP):
+                pass
+
+        if keydown(KEY_OK):
+            if self.select == 0:
+                fRect(0, 0, 320, 222, (255, 255, 255))
+                game = Game()
+                run = True
+                while run:
+                    run = game.run()
+                    sleep(1/120)
+                dStr("GG!", 148, 100)
+                while keydown(KEY_OK):
+                    pass
+                return True
+            if self.select == 1:
+                fRect(0, 0, 320, 222, (255, 255, 255))
+                return False
+            if self.select == 2:
+                pass
+        return True
+
+
 class Cube:
     def __init__(self):
         self.col = (0, 0, 150)
@@ -198,9 +263,7 @@ class Game:
         if self.player.collider(): return False
         else: return True
 
-game = Game()
+ui = UI()
 run = True
-fRect(0, 200, 320, 222, (0, 0, 0))
 while run:
-    run = game.run()
-    sleep(1/120)
+    run = ui.update()
