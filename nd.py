@@ -53,7 +53,7 @@ class UI:
                 run = True
                 while run:
                     run = game.run()
-                    sleep(1/120)
+                    sleep(1/240)
                 dStr("GG!", 148, 100)
                 while keydown(KEY_OK):
                     pass
