@@ -11,13 +11,11 @@ class UI:
         self.select = 0
         self.draw()
 
-
     def draw(self):
         fRect(0, 0, 320, 222, (255, 255, 255))
         txt = ["Numworks Dash", "by OJd_dJO"]
         dStr(txt[0], int(160-(len(txt[0])*10/2)), 80, (50, 50, 200))
         dStr(txt[1], int(160-(len(txt[1])*10/2)), 98, (50, 50, 200))
-
 
     def update(self):
         self.modifiedList = []
