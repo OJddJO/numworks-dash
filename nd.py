@@ -246,7 +246,7 @@ class Game:
             if t == 0: self.obsList.append(TriSpike(self.lastY))
             elif t == 1: self.obsList.append(SpikeRoof(self.lastY))
             elif t == 2: self.obsList.append(BruhSpike(self.lastY))
-            self.tick = 120
+            self.tick = 140
         else: self.tick -= 1
 
     def run(self):
