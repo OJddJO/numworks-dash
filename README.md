@@ -1,2 +1,3 @@
-# numworks dash
- Geometry Dash for Numworks
+# Numworks Dash
+ A Geometry Dash like game for Numworks
+
